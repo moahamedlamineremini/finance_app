@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modèle utilisateur
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // Hashé avec bcrypt
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  transactions Transaction[]
+
+  @@map("users")
+}
+
+// Modèle transaction (revenus et dépenses)
+model Transaction {
+  id          String   @id @default(cuid())
+  type        TransactionType // "income" ou "expense"
+  title       String
+  amount      Float
+  category    String
+  date        DateTime @default(now())
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relation avec l'utilisateur
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([type])
+  @@index([date])
+  @@map("transactions")
+}
+
+// Enum pour le type de transaction
+enum TransactionType {
+  income  // Revenu
+  expense // Dépense
+}
