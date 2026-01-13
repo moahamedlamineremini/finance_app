@@ -14,7 +14,36 @@ Application web moderne de gestion de finances personnelles construite avec Next
   - Ajout de revenus et dépenses
   - Catégorisation des transactions
   - Visualisation du solde en temps réel
-  - Statistiques détaillées (revenus totaux, dépenses totales, solde)
+  - Statistiques détaillées (revenus totaux, dépenses totales, solde, épargne)
+  - **Filtrage par mois** : Visualisez vos finances mois par mois
+  - **Filtrage par catégorie** : Analysez vos dépenses par catégorie
+  - **Navigation temporelle** : Parcourez facilement vos mois avec les flèches ◀ ▶
+
+- 📊 **Dashboard Intelligent**
+  - 4 cartes statistiques : Revenus, Dépenses, Solde, Livret A
+  - Carte Livret A avec bordure colorée selon votre performance d'épargne
+  - Widget d'épargne permanent affichant :
+    - Montant disponible ce mois
+    - Recommandation d'épargne intelligente
+    - Taux d'épargne actuel avec barre de progression
+    - Messages motivants personnalisés
+
+- 🤖 **Système de Recommandation d'Épargne IA**
+  - **Détection automatique** : Se déclenche après l'ajout d'un salaire
+  - **4 stratégies proposées** :
+    - Conservateur (10%) - Épargne de sécurité
+    - Modéré (20%) - Épargne régulière
+    - Ambitieux (30%) - Épargne maximale
+    - Intelligent (recommandé) - Basé sur vos dépenses réelles
+  - **Algorithme adaptatif** : Analyse vos 3 derniers mois de dépenses
+  - **Création automatique** : Génère une transaction "Épargne Livret A" en un clic
+  - **Persistance** : Mémorise votre dernier salaire même après fermeture du navigateur
+
+- 🎨 **Interface utilisateur moderne**
+  - Design responsive (mobile, tablette, desktop)
+  - Code couleur intuitif : vert (revenus), rouge (dépenses), bleu/violet (épargne)
+  - Feedback visuel intelligent selon vos objectifs d'épargne
+  - Messages encouragants basés sur vos performances
 
 - 🔒 **Sécurité**
   - Protection des routes avec middleware Next.js
@@ -110,9 +139,13 @@ projet-app-finance/
 │   ├── providers.tsx              # Providers React
 │   └── globals.css                # Styles globaux
 ├── components/
-│   ├── StatsCards.tsx             # Cartes statistiques
+│   ├── StatsCards.tsx             # Cartes statistiques (4 cartes)
 │   ├── TransactionForm.tsx        # Formulaire transaction
-│   └── TransactionList.tsx        # Liste des transactions
+│   ├── TransactionList.tsx        # Liste des transactions
+│   ├── MonthSelector.tsx          # Sélecteur de mois/année
+│   ├── CategoryFilter.tsx         # Filtre par catégorie
+│   ├── SavingsRecommendation.tsx  # Popup recommandation épargne
+│   └── SavingsWidget.tsx          # Widget épargne permanent
 ├── lib/
 │   └── prisma.ts                  # Client Prisma
 ├── prisma/
@@ -239,7 +272,29 @@ Supprimer une transaction
 2. **Se connecter** : Utilisez vos identifiants sur `/login`
 3. **Dashboard** : Vous serez redirigé vers le dashboard
 4. **Ajouter des transactions** : Cliquez sur "Nouvelle transaction"
-5. **Visualiser les statistiques** : Consultez vos revenus, dépenses et solde en temps réel
+5. **Visualiser les statistiques** : Consultez vos revenus, dépenses, solde et épargne en temps réel
+6. **Filtrer par mois** : Utilisez le sélecteur de mois pour naviguer dans vos finances
+7. **Filtrer par catégorie** : Cliquez sur une catégorie pour affiner votre analyse
+8. **Épargner intelligemment** : Ajoutez votre salaire et suivez les recommandations d'épargne
+
+### 💡 Fonctionnement de l'Épargne Intelligente
+
+1. **Ajoutez votre salaire** en tant que revenu avec la catégorie "Salaire"
+2. **Une popup apparaît** automatiquement avec 4 recommandations d'épargne
+3. **Choisissez une stratégie** ou définissez un montant personnalisé
+4. **Votre épargne est créée** automatiquement dans la catégorie "Épargne"
+5. **Le widget permanent** vous montre en continu :
+   - Combien vous pouvez encore épargner ce mois
+   - Votre taux d'épargne actuel
+   - Des conseils personnalisés selon vos performances
+
+### 🎯 Objectif d'Épargne
+
+L'application recommande d'épargner **20% de vos revenus**. Le système vous guide avec :
+- 🟢 **Bordure verte** sur la carte Livret A si vous atteignez 20%+
+- 🔵 **Bordure bleue** si vous êtes entre 10-20%
+- 🟠 **Bordure orange** si vous êtes entre 0-10%
+- Messages motivants adaptés à votre progression
 
 ## 🎨 Personnalisation
 
@@ -250,8 +305,25 @@ Modifiez le fichier [components/TransactionForm.tsx](components/TransactionForm.
 ```typescript
 const CATEGORIES = {
   income: ['Salaire', 'Freelance', 'Investissement', 'Autre'],
-  expense: ['Alimentation', 'Transport', 'Logement', 'Loisirs', 'Santé', 'Autre']
+  expense: ['Alimentation', 'Transport', 'Logement', 'Loisirs', 'Santé', 'Épargne', 'Autre']
 }
+```
+
+### Personnaliser l'Algorithme d'Épargne
+
+Modifiez [components/SavingsRecommendation.tsx](components/SavingsRecommendation.tsx) :
+
+```typescript
+// Ajustez les taux de recommandation
+const conservativeRate = 0.10 // 10%
+const moderateRate = 0.20 // 20%
+const aggressiveRate = 0.30 // 30%
+
+// Personnalisez la recommandation intelligente
+const intelligentSuggestion = Math.max(
+  salary - averageExpenses - (averageExpenses * 0.2), // 20% de marge
+  salary * 0.10 // Minimum 10%
+)
 ```
 
 ### Modifier les Couleurs
@@ -294,6 +366,16 @@ npx prisma migrate reset
 ## 🤝 Contribution
 
 Cette application est un projet pérsonnel. N'hésitez pas à l'améliorer et à proposer vos idées !
+
+### Fonctionnalités Futures Possibles
+
+- 📈 Graphiques et visualisations avancées
+- 📧 Notifications par email pour les objectifs d'épargne
+- 🎯 Objectifs d'épargne personnalisés
+- 📊 Export des données en CSV/PDF
+- 🌍 Multi-devises
+- 🔔 Rappels automatiques pour les dépenses récurrentes
+- 🤝 Partage de budgets familiaux
 
 ## 📄 Licence
 

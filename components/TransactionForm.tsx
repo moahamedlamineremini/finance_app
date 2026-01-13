@@ -17,7 +17,7 @@ interface TransactionFormProps {
 
 const CATEGORIES = {
   income: ['Salaire', 'Freelance', 'Investissement', 'Autre'],
-  expense: ['Alimentation', 'Transport', 'Logement', 'Loisirs', 'Santé', 'Autre']
+  expense: ['Alimentation', 'Transport', 'Logement', 'Loisirs', 'Santé', 'Épargne', 'Autre']
 }
 
 export default function TransactionForm({ onSubmit }: TransactionFormProps) {
@@ -56,7 +56,7 @@ export default function TransactionForm({ onSubmit }: TransactionFormProps) {
           <select
             value={formData.type}
             onChange={(e) => setFormData({ ...formData, type: e.target.value as 'income' | 'expense', category: '' })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white font-medium"
           >
             <option value="expense">Dépense</option>
             <option value="income">Revenu</option>
@@ -73,7 +73,7 @@ export default function TransactionForm({ onSubmit }: TransactionFormProps) {
             required
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white font-medium"
             placeholder="Ex: Courses du mois"
           />
         </div>
@@ -90,7 +90,7 @@ export default function TransactionForm({ onSubmit }: TransactionFormProps) {
             required
             value={formData.amount || ''}
             onChange={(e) => setFormData({ ...formData, amount: parseFloat(e.target.value) || 0 })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white font-medium"
             placeholder="0.00"
           />
         </div>
@@ -104,7 +104,7 @@ export default function TransactionForm({ onSubmit }: TransactionFormProps) {
             required
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white font-medium"
           >
             <option value="">Sélectionner...</option>
             {CATEGORIES[formData.type].map((cat) => (
@@ -124,7 +124,7 @@ export default function TransactionForm({ onSubmit }: TransactionFormProps) {
             type="date"
             value={formData.date}
             onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white font-medium"
           />
         </div>
 

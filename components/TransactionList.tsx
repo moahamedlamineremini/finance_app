@@ -17,8 +17,8 @@ export default function TransactionList({ transactions, onDelete }: TransactionL
   if (transactions.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow p-8 text-center">
-        <p className="text-gray-500">Aucune transaction pour le moment</p>
-        <p className="text-sm text-gray-400 mt-2">Ajoutez votre première transaction pour commencer</p>
+        <p className="text-gray-500">Aucune transaction pour ce mois</p>
+        <p className="text-sm text-gray-400 mt-2">Ajoutez une transaction ou sélectionnez un autre mois</p>
       </div>
     )
   }
