@@ -293,7 +293,7 @@ npx prisma migrate reset
 
 ## 🤝 Contribution
 
-Cette application est un projet pérsonnel. N'hésitez pas à l'améliorer !
+Cette application est un projet pérsonnel. N'hésitez pas à l'améliorer et à proposer vos idées !
 
 ## 📄 Licence
 
